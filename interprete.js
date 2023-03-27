@@ -8,30 +8,7 @@ const TS = require('./tabla_simbolos').TS;
 const TIPO_DATO = require('./tabla_simbolos').TIPO_DATO;
 
 
-/*
-let ast;
-try {
-    // leemos nuestro archivo de entrada
-    const entrada = fs.readFileSync('./entrada.txt');
-    // invocamos a nuestro parser con el contendio del archivo de entradas
-    ast = parser.parse(entrada.toString());
 
-    // imrimimos en un archivo el contendio del AST en formato JSON
-    fs.writeFileSync('./ast.json', JSON.stringify(ast, null, 2));
-} catch (e) {
-    console.error(e);
-    return;
-}
-*/
-
-
-
-/**
- * Este es el método principal. Se encarga de recorrer las instrucciones en un bloque,
- * identificarlas y procesarlas
- * @param {*} instrucciones 
- * @param {*} tablaDeSimbolos 
- */
 exports.procesarBloque=function(instrucciones, tablaDeSimbolos) {
     let results=''
     instrucciones.forEach(instruccion => {
@@ -66,13 +43,7 @@ exports.procesarBloque=function(instrucciones, tablaDeSimbolos) {
 }
 
 
-/**
- * De acuerdo con nuestra gramática, aqui, expresión puede ser una operación aritmética binaria (SUMA, RESTA, MULTIPLICACION, DIVISION),
- * una operación aritmética unaria (NEGATIVO) o un valor correspondiente a un NUMERO o a un IDENTIFICADOR
- * @param {*} expresion 
- * @param {TS} tablaDeSimbolos
- * Evaluamos cada caso para resolver a un valor tipo número de acuerdo al tipo de operación.
- */
+
 function procesarExpresionNumerica(expresion, tablaDeSimbolos) {
     if (expresion.tipo === TIPO_OPERACION.NEGATIVO) {
         // Es un valor negado.
@@ -133,12 +104,7 @@ function procesarExpresionNumerica(expresion, tablaDeSimbolos) {
     }
 }
 
-/**
- * De acuerdo con nuestra gramática, aqui, expresión puede ser una operacion CONCATENACION, CADENA o una expresión numérica
- * @param {*} expresion 
- * @param {TS} tablaDeSimbolos
- * Evaluamos cada caso para resolver a un valor tipo cadena de acuerdo al tipo de operación.
- */
+
 function procesarExpresionCadena(expresion, tablaDeSimbolos) {
     if (expresion.tipo === TIPO_OPERACION.CONCATENACION) {
         // Es una operación de concatenación.
@@ -162,12 +128,7 @@ function procesarExpresionCadena(expresion, tablaDeSimbolos) {
     }
 }
 
-/**
- * De acuerdo con nuestra gramática, aqui, expresión puede ser una operación relacional MAYOR QUE, MENOR QUE, MAYOR IGUAL QUE, MENOR IGUAL QUE, IGUAL QUE o NO IGUAL QUE
- * @param {*} expresion 
- * @param {TS} tablaDeSimbolos
- * Evaluamos cada caso para resolver a un valor tipo booleando de acuerdo al tipo de operación.
- */
+
 function procesarExpresionRelacional(expresion, tablaDeSimbolos) {
     // En este caso necesitamos procesar los operandos antes de realizar la comparación.
     let valorIzq = procesarExpresionNumerica(expresion.operandoIzq, tablaDeSimbolos);      // resolvemos el operando izquierdo.
@@ -187,12 +148,7 @@ function procesarExpresionRelacional(expresion, tablaDeSimbolos) {
     if (expresion.tipo === TIPO_OPERACION.NO_IGUAL) return valorIzq !== valorDer;
 }
 
-/**
- * De acuerdo con nuestra gramática, aqui, expresión puede ser una operación lógica AND, OR o NOT
- * @param {*} expresion 
- * @param {TS} tablaDeSimbolos
- * Evaluamos cada caso para resolver a un valor tipo booleando de acuerdo al tipo de operación.
- */
+
 function procesarExpresionLogica(expresion, tablaDeSimbolos) {
 
     if (expresion.tipo === TIPO_OPERACION.AND) { 
@@ -215,40 +171,25 @@ function procesarExpresionLogica(expresion, tablaDeSimbolos) {
     return procesarExpresionRelacional(expresion, tablaDeSimbolos);
 }
 
-/**
- * Función que se encarga de procesar la instrucción Imprimir
- * @param {*} instruccion 
- * @param {*} tablaDeSimbolos 
- */
+
 function procesarImprimir(instruccion, tablaDeSimbolos) {
     const cadena = procesarExpresionCadena(instruccion.expresionCadena, tablaDeSimbolos).valor;
     console.log('> ' + cadena);
     return cadena;
 }
 
-/**
- * Función que se encarga de procesar la instrucción Declaración
- * @param {*} instruccion 
- * @param {*} tablaDeSimbolos 
- */
 function procesarDeclaracion(instruccion, tablaDeSimbolos) { //aqui cambiamos para que acepte el tipo_dato de la declaracion
     tablaDeSimbolos.agregar(instruccion.identificador, instruccion.tipo_dato);
 }
 
-/**
- * Función que se encarga de procesar la instrucción Asignación
- * @param {*} instruccion 
- * @param {*} tablaDeSimbolos 
- */
+
 function procesarAsignacion(instruccion, tablaDeSimbolos) {
     const valor = procesarExpresionCadena(instruccion.expresionNumerica, tablaDeSimbolos); //aqui quiero que retorne: tipo y valor
     tablaDeSimbolos.actualizar(instruccion.identificador, valor);
 }
 
 
-/**
- * Función que se encarga de procesar la instrucción If
- */
+
 function procesarIf(instruccion, tablaDeSimbolos) {
     const valorCondicion = procesarExpresionLogica(instruccion.expresionLogica, tablaDeSimbolos);
 

@@ -8,7 +8,7 @@ function App() {
   const [code, setCode] = useState('');
   const [resultado, setResultado] = useState('');
   function analizar(){
-    axios.post('http://localhost:3000/analizar', {
+    axios.post('http://localhost:5000/analizar', {
       entrada: code
     })
     .then(function (response) {

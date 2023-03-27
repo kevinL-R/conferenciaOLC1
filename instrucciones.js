@@ -38,14 +38,7 @@ const TIPO_INSTRUCCION = {
 }
 
 
-/**
- * Esta función se encarga de crear objetos tipo Operación.
- * Recibe como parámetros el operando izquierdo y el operando derecho.
- * También recibe como parámetro el tipo del operador
- * @param {*} operandoIzq 
- * @param {*} operandoDer 
- * @param {*} tipo 
- */
+
 function nuevaOperacion(operandoIzq, operandoDer, tipo) {
 	return {
 		operandoIzq: operandoIzq,
@@ -55,35 +48,19 @@ function nuevaOperacion(operandoIzq, operandoDer, tipo) {
 }
 
 
-/**
- * El objetivo de esta API es proveer las funciones necesarias para la construcción de operaciones e instrucciones.
- */
+
 const instruccionesAPI = {
 
-	/**
-	 * Crea un nuevo objeto tipo Operación para las operaciones binarias válidas.
-	 * @param {*} operandoIzq 
-	 * @param {*} operandoDer 
-	 * @param {*} tipo 
-	 */
+	
 	nuevoOperacionBinaria: function(operandoIzq, operandoDer, tipo) {
 		return nuevaOperacion(operandoIzq, operandoDer, tipo);
 	},
 
-	/**
-	 * Crea un nuevo objeto tipo Operación para las operaciones unarias válidas
-	 * @param {*} operando 
-	 * @param {*} tipo 
-	 */
 	nuevoOperacionUnaria: function(operando, tipo) {
 		return nuevaOperacion(operando, undefined, tipo);
 	},
 
-	/**
-	 * Crea un nuevo objeto tipo Valor, esto puede ser una cadena, un número o un identificador
-	 * @param {*} valor 
-	 * @param {*} tipo 
-	 */
+	
 	nuevoValor: function(valor, tipo) {
 		return {
 			tipo: tipo,
@@ -91,10 +68,7 @@ const instruccionesAPI = {
 		}
 	},
 
-	/**
-	 * Crea un objeto tipo Instrucción para la sentencia Imprimir.
-	 * @param {*} expresionCadena 
-	 */
+	
 	nuevoImprimir: function(expresionCadena) {
 		return {
 			tipo: TIPO_INSTRUCCION.IMPRIMIR,
@@ -106,10 +80,7 @@ const instruccionesAPI = {
 
 	
 
-	/**
-	 * Crea un objeto tipo Instrucción para la sentencia Declaración.
-	 * @param {*} identificador 
-	 */
+	
 	nuevoDeclaracion: function(identificador, tipo) {
 		return {
 			tipo: TIPO_INSTRUCCION.DECLARACION,
@@ -118,11 +89,7 @@ const instruccionesAPI = {
 		}
 	},
 
-	/**
-	 * Crea un objeto tipo Instrucción para la sentencia Asignación.
-	 * @param {*} identificador 
-	 * @param {*} expresionNumerica 
-	 */
+	
 	nuevoAsignacion: function(identificador, expresionNumerica) {
 		return {
 			tipo: TIPO_INSTRUCCION.ASIGNACION,
@@ -131,11 +98,7 @@ const instruccionesAPI = {
 		}
 	},
 
-	/**
-	 * Crea un objeto tipo Instrucción para la sentencia If.
-	 * @param {*} expresionLogica 
-	 * @param {*} instrucciones 
-	 */
+	
 	nuevoIf: function(expresionLogica, instrucciones) {
 		return {
 			tipo: TIPO_INSTRUCCION.IF,
@@ -145,10 +108,7 @@ const instruccionesAPI = {
 	},
 
     
-	/**
-	* Crea un objeto tipo Operador (+ , - , / , *) 
-	* @param {*} operador 
-	*/
+	
 	nuevoOperador: function(operador){
 		return operador 
 	},
